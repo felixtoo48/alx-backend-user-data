@@ -8,7 +8,7 @@ class Auth():
     """ class for managing API Authentication"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ defining require authentication"""
-        return false
+        return False
 
     def authorization_header(self, request=None) -> str:
         """ """
