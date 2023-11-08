@@ -13,10 +13,8 @@ class Auth():
         if excluded_paths is None:
             return True
         for excluded_path in excluded_paths:
-            # Check if path/path with a trailing slash is in excluded_path
             if path == excluded_path or path == excluded_path + '/':
                 return False
-        # If the path is not in the list of excluded paths, return True
         return True
 
     def authorization_header(self, request=None) -> str:
