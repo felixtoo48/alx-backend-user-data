@@ -12,7 +12,7 @@ class Auth():
             return True
         if not excluded_paths:
             return True
-        for excluded_paths in excluded_paths:
+        for excluded_path in excluded_paths:
             # Check if path or path with a trailing slash is in excluded_path
             if path == excluded_path or path == excluded_path + '/':
                 return False
