@@ -18,25 +18,9 @@ auth = None
 
 # Load and assign the right instance of authentication
 # based on the AUTH_TYPE environment variable
-if 'AUTH_TYPE' in app.config and app.config['AUTH_TYPE'] == 'auth':
+if getenv('AUTH_TYPE', None) == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
-
-
-@app.before_request
-def before_request():
-    if auth is None:
-        return
-
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    if request.path in excluded_paths:
-        return
-
-    if auth.authorization_header(request) is None:
-        abort(401)  # Unauthorized
-
-    if auth.current_user(request) is None:
-        abort(403)  # Forbidden
 
 
 @app.errorhandler(404)
@@ -58,6 +42,24 @@ def forbidden(error) -> str:
     """ access to a resource forbidden
     """
     return jsonify({"error": "Forbidden"}), 403
+
+
+@app.before_request
+def before_request():
+    if auth is None:
+        return
+
+    excluded_paths = ['/api/v1/status/',
+                      '/api/v1/unauthorized/',
+                      '/api/v1/forbidden/']
+    if not auth.require_auth(request.path, excluded_paths):
+        return
+
+    if auth.authorization_header(request) is None:
+        abort(401)  # Unauthorized
+
+    if auth.current_user(request) is None:
+        abort(403)  # Forbidden
 
 
 if __name__ == "__main__":
