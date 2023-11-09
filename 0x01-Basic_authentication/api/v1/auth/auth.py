@@ -21,9 +21,16 @@ class Auth():
 
     def authorization_header(self, request=None) -> str:
         """ authorization header template """
-        if request is not None:
-            return request.headers.get('Authorization', None)
-        return None
+        if request is None:
+            return None
+
+        # If the request doesn't contain the header key 'Authorization',
+        # return None
+        if 'Authorization' not in request.headers:
+            return None
+
+        # Return the value of the 'Authorization' header in the request
+        return request.headers['Authorization']
 
     def current_user(self, request=None) -> TypeVar('User'):
         """ current user authorization template """
