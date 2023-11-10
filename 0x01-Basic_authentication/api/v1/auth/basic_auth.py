@@ -8,19 +8,17 @@ from models.user import User
 
 class BasicAuth(Auth):
     """ basic auth class inheriting from auth """
-    def extract_base64_authorization_header(self,
-                                            authorization_header: str) -> str:
-        """ Extracts the Base64 part of the Authorization
-        header for Basic Authentication """
-        if authorization_header is None or not isinstance(authorization_header,
-                                                          str):
+    def extract_base64_authorization_header(
+            self, authorization_header: str) -> str:
+        """
+        Performs base64 encoding on the authorization_header
+        extract base64 of authorization header after "Basic "
+        """
+        if authorization_header is None or type(authorization_header) != str:
             return None
-
-        if not authorization_header.startswith('Basic '):
+        if not authorization_header.startswith("Basic "):
             return None
-
-        base64_part = authorization_header[len('Basic '):]
-        return base64_part
+        return authorization_header.split("Basic ")[1]
 
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
@@ -76,6 +74,4 @@ class BasicAuth(Auth):
         b64Header = self.extract_base64_authorization_header(auth_header)
         decoded = self.decode_base64_authorization_header(b64Header)
         credentials = self.extract_user_credentials(decoded)
-        user = self.user_object_from_credentials(
-            credentials[0], credentials[1])
-        return user
+        return self.user_object_from_credentials(*credentials)
