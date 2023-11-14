@@ -46,12 +46,12 @@ class DB:
         first row found in the users table as filtered by the method’s
         input arguments
         """
-        if not kwargs:
+        if not kwargs or not self.valid_query_args(**kwargs):
             raise InvalidRequestError
 
-        user = self.__session.query(User).filter_by(**kwargs).first()
+        user = self._session.query(User).filter_by(**kwargs).first()
 
-        if user is None:
-            return NoResultFound
-
-        return user
+        if not user:
+            raise NoResultFound
+        else:
+            return user
