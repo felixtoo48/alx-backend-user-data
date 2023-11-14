@@ -43,10 +43,10 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """ method takes in arbitrary keyword arguments and returns the
-        first row found in the users table as filtered by the method’s
+        first row found in the users table as filtered by the methods
         input arguments
         """
-        if not kwargs or not self.valid_query_args(**kwargs):
+        if not kwargs:
             raise InvalidRequestError
 
         user = self._session.query(User).filter_by(**kwargs).first()
