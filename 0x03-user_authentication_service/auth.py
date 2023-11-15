@@ -86,7 +86,7 @@ class Auth:
         """ destroy session by updating corresponding user id to None
         """try:
             if user_id:
-                existing_user = self._db.find_user_by(email=email)
+                existing_user = self._db.find_user_by(id=user_id)
                 self._db.update_user(existing_user.id, session_id=None)
                 return None
             except NoResultFound:
