@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'], strict_slashes=False)
 def message() -> str:
     """ print message given """
-    return flask.jsonify({"message": "Bienvenue"})
+    return jsonify({"message": "Bienvenue"})
 
 
 if __name__ == "__main__":
