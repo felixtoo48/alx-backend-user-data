@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route("/", methods=['GET'])
-def message():
+def message() -> str:
     """ print message given """
     return flask.jsonify({"message": "Bienvenue"})
 
