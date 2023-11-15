@@ -32,15 +32,16 @@ def users():
 @app.route("/sessions", methods=['POST'])
 def login():
     """ implementing login function """
-    try:
-        email = request.form.get("email")
-        password = request.form.get("password")
-        log = AUTH.valid_login(email, password)
-        if log:
-            session = AUTH.create_session(session_id)
-            return jsonify({"email": user.email, "message": "logged in"}), 200
-    except Exception:
-        return abort(401)
+    email = request.form.get("email")
+    password = request.form.get("password")
+    valid_login = AUTH.valid_login(email, password)
+    if valid_login:
+        session_id = AUTH.create_session(email)
+        res = jsonify({"email": f"{email}", "message": "logged in"})
+        res.set_cookie("session_id", session_id)
+        return res
+    else:
+        abort(401)
 
 
 if __name__ == "__main__":
