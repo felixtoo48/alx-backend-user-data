@@ -75,8 +75,9 @@ class Auth:
 
     def get_user_from_session_id(self, session_id: str) -> User:
         """ method finding user using session id """
-        if session_id:
-            existing_user = self._db.find_user_by(session_id=session_id)
-            return existing_user
-        else:
+        try:
+            if session_id:
+                existing_user = self._db.find_user_by(session_id=session_id)
+                return existing_user
+        except NoResultFound:
             return None
