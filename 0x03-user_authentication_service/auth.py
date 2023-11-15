@@ -70,4 +70,4 @@ class Auth:
             self._db.update_user(existing_user.id, session_id=session_id)
             return session_id
         except NoResultFound:
-            return
+            return None
