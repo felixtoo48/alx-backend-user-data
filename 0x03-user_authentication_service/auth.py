@@ -97,4 +97,4 @@ class Auth:
             self._db.update_user(existing_user.id, reset_token=reset_token)
             return reset_token
         except NoResultFound:
-            raise ValueError(f"User {email} does not exist")
+            raise ValueError
